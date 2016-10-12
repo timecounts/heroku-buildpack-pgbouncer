@@ -92,8 +92,11 @@ EOFEOF
 "$DB_USER" "$DB_MD5_PASS"
 EOFEOF
 
+  DB_EXTRA_VAR_NAME="PGBOUNCER_${POSTGRES_URL}_EXTRA"
+  DB_EXTRA="$(eval "echo \${${DB_EXTRA_VAR_NAME}:-""}")"
+
   cat >> /app/vendor/pgbouncer/pgbouncer.ini << EOFEOF
-$CLIENT_DB_NAME= dbname=$DB_NAME port=610${n}
+$CLIENT_DB_NAME= dbname=$DB_NAME port=610${n} $DB_EXTRA
 EOFEOF
 
   let "n += 1"
